@@ -18,7 +18,7 @@ CREATE TABLE ships (
     registry VARCHAR(255) NOT NULL,
     class VARCHAR(255) NOT NULL,
     currentLocation VARCHAR(255),
-    -- ask bruce about FK ship/missions
+    FOREIGN KEY (missionID) REFERENCES missions (missionID)
 );
 
 
