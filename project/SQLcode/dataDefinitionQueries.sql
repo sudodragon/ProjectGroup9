@@ -35,7 +35,8 @@ CREATE TABLE `personnel` (
 
 CREATE TABLE `duties` (
     `dutyID` int(11) NOT NULL AUTO_INCREMENT,
-    `priority` tinyint(255) NOT NULL,
+    `dutyName` varchar(255) NOT NULL
+    `priority` tinyint(1) NOT NULL,
     `responsibilities` varchar(255) NOT NULL,
     PRIMARY KEY (`dutyID`)
 );
@@ -104,11 +105,11 @@ VALUES
     ('Jean-Luc', 'Picard');
 
 -- Sample data
-INSERT INTO duties (priority, responsibilities)
+INSERT INTO duties (dutyName, priority, responsibilities)
 VALUES 
-    ('1', 'Oversee ship. Command crew.'),
-    ('2', 'Maintain hyperspace reactor.'),
-    ('3', 'Prepare crew meals. Maintain clean kitchen');
+    ('Ship Command', '1', 'Oversee ship. Command crew.'),
+    ('Hyperspace Maintenance', '2', 'Maintain hyperspace reactor.'),
+    ('Kitchen', '3', 'Prepare crew meals. Maintain clean kitchen');
 
 -- Sample data
 INSERT INTO personnel_duties (personnelID, dutyID)
