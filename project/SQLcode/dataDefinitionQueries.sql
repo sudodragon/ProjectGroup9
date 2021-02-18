@@ -18,10 +18,35 @@ CREATE TABLE ships (
     registry VARCHAR(255) NOT NULL,
     class VARCHAR(255) NOT NULL,
     currentLocation VARCHAR(255),
+    missionID INT,
     FOREIGN KEY (missionID) REFERENCES missions (missionID)
 );
 
+CREATE TABLE `personnel` (
+    `personnelID` int(11) NOT NULL AUTO_INCREMENT,
+    `firstName` varchar(255) NOT NULL,
+    `lastName` varchar(255) NOT NULL,
+    `rankID` int(11),
+    `shipID` int(11),
+    PRIMARY KEY (`personnelID`),
+    FOREIGN KEY (`rankID`) REFERENCES `ranks` (`rankID`),
+    FOREIGN KEY (`shipID`) REFERENCES `ships` (`shipID`)
+);
 
+CREATE TABLE `duties` (
+    `dutyID` int(11) NOT NULL AUTO_INCREMENT,
+    `priority` tinyint(255) NOT NULL,
+    `responsibilities` varchar(255) NOT NULL,
+    PRIMARY KEY (`dutyID`)
+);
+
+CREATE TABLE `personnel_duties` (
+    `personnelID` int(11) NOT NULL,
+    `dutyID` int(11) NOT NULL,
+    PRIMARY KEY (`personnelID`, `dutyID`),
+    FOREIGN KEY (`personnelID`) REFERENCES `personnel` (`personnelID`),
+    FOREIGN KEY (`dutyID`) REFERENCES `duties` (`dutyID`)
+);
 
 INSERT INTO ranks (rankName, pay, minYears) 
 VALUES ("Cadet", 30000, 3);
@@ -70,3 +95,27 @@ VALUES ("Investigate subspace anomaly", 2, "Crab Nebula");
 
 INSERT INTO missions (directive, status, location)
 VALUES ("Transport Ambassador Pike", 3, "Feringenar");
+
+-- Sample data
+INSERT INTO personnel (firstName, lastName)
+VALUES 
+    ('James', 'Kirk'),
+    ('Spock', 'Unknown'),
+    ('Jean-Luc', 'Picard');
+
+-- Sample data
+INSERT INTO duties (priority, responsibilities)
+VALUES 
+    ('1', 'Oversee ship. Command crew.'),
+    ('2', 'Maintain hyperspace reactor.'),
+    ('3', 'Prepare crew meals. Maintain clean kitchen');
+
+-- Sample data
+INSERT INTO personnel_duties (personnelID, dutyID)
+VALUES 
+    ((SELECT personnelID FROM personnel where personnelID = 1),
+    (SELECT dutyID FROM duties where dutyID = 1)),
+    ((SELECT personnelID FROM personnel where personnelID = 2),
+    (SELECT dutyID FROM duties where dutyID = 2)),
+    ((SELECT personnelID FROM personnel where personnelID = 3),
+    (SELECT dutyID FROM duties where dutyID = 3));
