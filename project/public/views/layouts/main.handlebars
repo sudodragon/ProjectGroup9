@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SFC</title>
+</head>
+<body>
+    <h1>Starfleet Command Management System</h1>
+    <h2>Choose your destination:</h2>
+    <div id="nav">
+        <ul>
+            <li><a href="duties">Duties</a></li>
+            <li><a href="missions">Missions</a></li>
+            <li><a href="personnel">Personnel</a></li>
+            <li><a href="personToDuty">Personnel Duties</a></li>
+            <li><a href="ranks">Ranks</a></li>
+            <li><a href="ships">Ships</a></li>
+            <li><a href="/">Return To Start Page</a></li>
+        </ul>
+    </div>
+    {{{body}}}
+    {{#each jsscripts}}
+    <script src="/static/{{this}}"></script>
+    {{/each}}
+</body>
+</html>
