@@ -4,6 +4,7 @@ let express = require('express');
 let exphbs = require('express-handlebars').create({
     defaultLayout:'main'
 });
+let mysql = require('./dbcon.js');
 
 let bodyparser = require('body-parser');
 let app = express();
@@ -13,7 +14,7 @@ app.engine('handlebars', exphbs.engine);
 app.set('view engine', 'handlebars');
 app.use(bodyparser.urlencoded({extended:true}));
 //app.use('/static', express.static('public'));
-//app.set('mysql', mysql);
+app.set('mysql', mysql);
 //app.use('/duties', require('./duties.js'));
 /*
 app.use('/missions', require('./missions.js'));
@@ -52,6 +53,7 @@ app.get('/personToDuty', (req, res) => {
 });
 
 app.get('/ranks', (req, res) => {
+    let mysql = req.app.get('myql');
     let context = {};
     let ranks = {
         rankId: "", 
@@ -61,8 +63,15 @@ app.get('/ranks', (req, res) => {
     };
 
     //sql stuff here
-    
-    context.ranks = ranks;
+    mysql.pool.query("SELECT rankId, rank, pay, minYears FROM ranks ", (error, results, fields) => {
+        if(error){
+            res.write(JSON.stringify(error));
+            res.end();
+        }
+        context.ranks  = results;
+    });
+
+    //context.ranks = ranks;
     res.render('ranks', context);
 });
 
