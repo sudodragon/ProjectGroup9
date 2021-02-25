@@ -13,17 +13,15 @@ let port = 9150;
 app.engine('handlebars', exphbs.engine);
 app.set('view engine', 'handlebars');
 app.use(bodyparser.urlencoded({extended:true}));
-//app.use('/static', express.static('public'));
+app.use('/static', express.static('public'));
 app.set('mysql', mysql);
 //app.use('/duties', require('./duties.js'));
-/*
-app.use('/missions', require('./missions.js'));
-app.use('/personnel', require('./personnel.js'));
-app.use('/personToDuty', require('/.personToDuty.js'));
+//app.use('/missions', require('./missions.js'));
+//app.use('/personnel', require('./personnel.js'));
+//app.use('/personToDuty', require('/.personToDuty.js'));
 app.use('/ranks', require('./ranks.js'));
-app.use('/ships', require('./ships.js'));
-*/
-//app.use('/', express.static('public'));
+//app.use('/ships', require('./ships.js'));
+app.use('/', express.static('public'));
 
 app.get('/duties', (req, res) => {
     res.render('duties');
@@ -51,7 +49,7 @@ app.get('/personnel', (req, res) => {
 app.get('/personToDuty', (req, res) => {
     res.render('personToDuty');
 });
-
+/*
 app.get('/ranks', (req, res) => {
     let context = {};
     let ranks = {
@@ -66,7 +64,7 @@ app.get('/ranks', (req, res) => {
     context.ranks = ranks;
     res.render('ranks', context);
 });
-
+*/
 app.get('/ships', (req, res) => {
     let context = {};
     let ships = {
