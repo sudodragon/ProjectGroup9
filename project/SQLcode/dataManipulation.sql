@@ -43,6 +43,6 @@ INSERT INTO personnel_duties (personnelID, dutyID)
 VALUES ((SELECT personnelID FROM personnel WHERE firstName = #firstName and lastName = #lastName),
     (SELECT dutyID FROM duties WHERE dutyName = #dutyName));
 
-DELETE FROM personnel_duties WHERE firstName = #firstName and lastName = #lastName and dutyName = #dutyName)
+DELETE FROM personnel_duties WHERE firstName = #firstName and lastName = #lastName and dutyName = #dutyName;
 
 SELECT * FROM personnel_duties;
