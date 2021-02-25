@@ -1,4 +1,4 @@
-module.exports = () => {
+module.exports = function() {
     let express = require('express');
     let router = express.Router();
 
@@ -10,14 +10,12 @@ module.exports = () => {
             pay : "", 
             minYears : ""
         };
-    
-        //sql stuff here
-    
         context.ranks = ranks;
         res.render('ranks', context);
     });
-};
-/*
+    return router;
+}();
+/* I started this, but haven't finished it
 
     function getRanks(res, mysql, context) {
         mysql.pool.query("SELECT * FROM ranks", (error, results, fields) => {
