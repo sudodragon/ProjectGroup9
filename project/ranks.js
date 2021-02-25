@@ -2,39 +2,31 @@ module.exports = function() {
     let express = require('express');
     let router = express.Router();
 
-    router.get('/', (req, res) => {
-        let context = {};
-        let ranks = {
-            rankId: "", 
-            rank : "", 
-            pay : "", 
-            minYears : ""
-        };
-        context.ranks = ranks;
-        res.render('ranks', context);
-    });
-    return router;
-}();
-/* I started this, but haven't finished it
-
-    function getRanks(res, mysql, context) {
-        mysql.pool.query("SELECT * FROM ranks", (error, results, fields) => {
+    function getRanks(res, mysql, context, complete) {
+        let query = "SELECT rankId, rankName, pay, minYears FROM ranks";
+        mysql.pool.query(query, (error, results, fields) => {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            console.log(results);
             context.ranks = results;
+            console.log(context.ranks);
+            complete();
         });
     }
-
     router.get('/', (req, res) => {
         let callbackCount = 0;
         let context = {};
-        context.jsscripts = [];
         let mysql = req.app.get('mysql');
-        getRanks(res, mysql, context);
-        res.render('ranks', context)
-    })
-}
-*/
+        getRanks(res, mysql, context, complete);
+
+        function complete(){
+            callbackCount++;
+            if (callbackCount >= 1) {
+                console.log(context.ranks);
+                res.render('ranks', context);
+            }
+        }      
+    });
+    return router;
+}();
