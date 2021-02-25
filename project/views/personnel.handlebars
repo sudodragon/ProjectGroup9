@@ -85,13 +85,32 @@
     </form>
     <br>
 
-    <form action="" method="get" id="allPersonnelForm">
-        <fieldset>
-            <legend>
-                Full Personnel Roster:
-            </legend>
-
-            <input type="submit" id="submitButton" value="Display Roster" />
-        </fieldset>
+    <h2>Personnel</h2>
+    <form>
+        <input type="submit" value="Retrieve Personnel">
     </form>
+    <br>
 
+    <table>
+        <thead>
+            <tr>
+                <th>Personnel ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Rank ID</th>
+                <th>Ship ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each personnel}}
+            <tr>
+                <td>{{personnelId}}</td>
+                <td>{{firstName}}</td>
+                <td>{{lastName}}</td>
+                <td>{{rankID}}</td>
+                <td>{{shipID}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    

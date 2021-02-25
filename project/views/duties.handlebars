@@ -5,6 +5,11 @@
             <legend>
                 Add Duty:
             </legend>
+            <label>Duty Name:</label>
+            <input type="text" id="dutyNameAdd" name="dutyNameAdd">
+            <br>
+            <br>
+            
             <label>Priority:</label>
             <input type="number" id="priorityAdd" name="priorityAdd">
             <br>
@@ -20,6 +25,7 @@
     </form>
     <br>
     
+    <h2>Duties</h2>
     <form action="" method="get" id="allDutyForm">
         <fieldset>
             <legend>
@@ -29,3 +35,25 @@
             <input type="submit" id="submitButton" value="Display Duties" />
         </fieldset>
     </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Duty ID</th>
+                <th>Duty Name</th>
+                <th>Priority</th>
+                <th>Responsibilities</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each personnel}}
+            <tr>
+                <td>{{dutyId}}</td>
+                <td>{{dutyName}}</td>
+                <td>{{priority}}</td>
+                <td>{{responsibilities}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    
