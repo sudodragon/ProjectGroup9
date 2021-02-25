@@ -1,3 +1,10 @@
+DROP TABLE IF EXISTS personnel_duties;
+DROP TABLE IF EXISTS personnel;
+DROP TABLE IF EXISTS duties;
+DROP TABLE IF EXISTS ships;
+DROP TABLE IF EXISTS missions;
+DROP TABLE IF EXISTS ranks;
+
 CREATE TABLE `ranks` (
     `rankID` INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     `rankName` VARCHAR(50) NOT NULL,
@@ -19,7 +26,7 @@ CREATE TABLE `ships` (
     `class` VARCHAR(50) NOT NULL,
     `currentLocation` VARCHAR(255),
     `missionID` INT,
-    FOREIGN KEY (`missionID`) REFERENCES `missions` (`missionID`)
+    FOREIGN KEY (`missionID`) REFERENCES `missions` (`missionID`) ON DELETE CASCADE
 );
 
 CREATE TABLE `personnel` (
@@ -29,8 +36,8 @@ CREATE TABLE `personnel` (
     `rankID` int(11),
     `shipID` int(11),
     PRIMARY KEY (`personnelID`),
-    FOREIGN KEY (`rankID`) REFERENCES `ranks` (`rankID`),
-    FOREIGN KEY (`shipID`) REFERENCES `ships` (`shipID`)
+    FOREIGN KEY (`rankID`) REFERENCES `ranks` (`rankID`) ON DELETE CASCADE,
+    FOREIGN KEY (`shipID`) REFERENCES `ships` (`shipID`) ON DELETE CASCADE
 );
 
 CREATE TABLE `duties` (
@@ -45,8 +52,8 @@ CREATE TABLE `personnel_duties` (
     `personnelID` int(11) NOT NULL,
     `dutyID` int(11) NOT NULL,
     PRIMARY KEY (`personnelID`, `dutyID`),
-    FOREIGN KEY (`personnelID`) REFERENCES `personnel` (`personnelID`),
-    FOREIGN KEY (`dutyID`) REFERENCES `duties` (`dutyID`)
+    FOREIGN KEY (`personnelID`) REFERENCES `personnel` (`personnelID`) ON DELETE CASCADE,
+    FOREIGN KEY (`dutyID`) REFERENCES `duties` (`dutyID`) ON DELETE CASCADE
 );
 
 -- Sample data
