@@ -24,7 +24,7 @@ VALUES (#firstName, #lastName);
 
 UPDATE personnel
 SET firstName = #firstName, lastName = #lastName, rankID = (SELECT rankID FROM ranks WHERE rankName = #rankName), 
-    shipID = (SELECT shipID FROM ships WHERE shipName = # shipName)
+    shipID = (SELECT shipID FROM ships WHERE shipName = # shipName);
 
 DELETE FROM personnel WHERE firstName = #firstName and lastName = #lastName;
 
