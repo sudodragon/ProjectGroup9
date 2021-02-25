@@ -53,7 +53,6 @@ app.get('/personToDuty', (req, res) => {
 });
 
 app.get('/ranks', (req, res) => {
-    let mysql = req.app.get('myql');
     let context = {};
     let ranks = {
         rankId: "", 
@@ -63,15 +62,8 @@ app.get('/ranks', (req, res) => {
     };
 
     //sql stuff here
-    mysql.pool.query("SELECT rankId, rank, pay, minYears FROM ranks ", (error, results, fields) => {
-        if(error){
-            res.write(JSON.stringify(error));
-            res.end();
-        }
-        context.ranks  = results;
-    });
 
-    //context.ranks = ranks;
+    context.ranks = ranks;
     res.render('ranks', context);
 });
 
@@ -107,5 +99,5 @@ app.use((err, req, res, next) =>  {
 });
 
 app.listen(port, () => {
-    console.log(`App listening on http://localhost:${port}, Ctrl-C to quit`);
+    console.log(`App listening on http://flip2.engr.oregonstate.edu:${port}, Ctrl-C to quit`);
 });
