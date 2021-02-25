@@ -35,7 +35,7 @@ CREATE TABLE `personnel` (
 
 CREATE TABLE `duties` (
     `dutyID` int(11) NOT NULL AUTO_INCREMENT,
-    `dutyName` varchar(50) NOT NULL
+    `dutyName` varchar(50) NOT NULL,
     `priority` tinyint(1) NOT NULL,
     `responsibilities` varchar(255) NOT NULL,
     PRIMARY KEY (`dutyID`)
