@@ -29,3 +29,26 @@
             <input type="submit" id="submitButton" value="Display Assignments" />
         </fieldset>
     </form>
+
+    <h2>Personnel Duty Assignments</h2>
+    <form>
+        <input type="submit" value="Retrieve Personnel Duty Assignments">
+    </form>
+    <br>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Personnel ID</th>
+                <th>Duty ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each personnel}}
+            <tr>
+                <td>{{personnelId}}</td>
+                <td>{{dutyId}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
