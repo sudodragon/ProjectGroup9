@@ -3,7 +3,7 @@ module.exports = function() {
     let router = express.Router();
     
     function getShips(res, mysql, context, complete) {
-        let query = "SELECT shipId, shipName, registry, class, location, missionId FROM ships";
+        let query = "SELECT shipId, shipName, registry, class, currentLocation, missionId FROM ships";
         mysql.pool.query(query, (error, results, fields) => {
             if (error) {
                 res.write(JSON.stringify(error));
