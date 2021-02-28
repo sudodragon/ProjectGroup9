@@ -1,21 +1,26 @@
     <h2>Personnel Duty Assignment System</h2>
     
-    <form action="" method="post" id="addPersonDutyForm">
+    <form action="/personToDuty" method="post" id="addPersonDutyForm">
         <fieldset>
             <legend>
                 Add Duty:
             </legend>
-            <label>Personnel ID:</label>
-            <input type="number" id="personIDAdd" name="personIDAdd">
+            <label>First Name:</label>
+            <input type="text" name="firstName">
             <br>
             <br>
 
-            <label>Duty ID:</label>
-            <input type="number" id="dutyIDAdd" name="dutyIDAdd">
+            <label>Last Name:</label>
+            <input type="text" name="lastName">
             <br>
             <br>
 
-            <input type="submit" id="submitButton" value="Assign Personnel to Duty" />
+            <label>Duty Name:</label>
+            <input type="text" name="dutyName">
+            <br>
+            <br>
+
+            <input type="submit" value="Assign Personnel to Duty" />
         </fieldset>
     </form>
     <br>
@@ -26,7 +31,7 @@
                 Complete Personnel to Duty Assignments:
             </legend>
 
-            <input type="submit" id="submitButton" value="Display Assignments" />
+            <input type="submit" value="Display Assignments" />
         </fieldset>
     </form>
 
