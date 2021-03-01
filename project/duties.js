@@ -29,7 +29,6 @@ module.exports = function() {
         }      
     });
 
-//**************This section for ISNERT is untested******************
     router.post('/', function(req, res){
         let mysql = req.app.get('mysql');
         let sql = "INSERT INTO duties (dutyName, priority, responsibilities) VALUES (?,?,?)";
