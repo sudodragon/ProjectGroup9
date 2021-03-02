@@ -3,7 +3,7 @@ module.exports = function () {
     let router = express.Router();
 
     function getPersonnelDuties(res, mysql, context, complete) {
-        let query = "SELECT firstName, lastName, dutyName FROM personnel_duties INNER JOIN personnel ON personnel_duties.personnelID = personnel.personnelID INNER JOIN duties ON personnel_duties.dutyID = duties.dutyID";
+        let query = "SELECT personnel_duties.personnelID, firstName, lastName, personnel_duties.dutyID, dutyName FROM personnel_duties INNER JOIN personnel ON personnel_duties.personnelID = personnel.personnelID INNER JOIN duties ON personnel_duties.dutyID = duties.dutyID";
         mysql.pool.query(query, (error, results, fields) => {
             if (error) {
                 res.write(JSON.stringify(error));

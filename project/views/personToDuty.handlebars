@@ -26,24 +26,24 @@
     <br>
 
     <h2>Personnel Duty Assignments</h2>
-    <form>
-        <input type="submit" value="Retrieve Personnel Duty Assignments">
-    </form>
-    <br>
 
     <table>
         <thead>
             <tr>
+                <th>Personnel ID</th>
                 <th>First Name</th>
                 <th>Last Name</th>
+                <th>Duty ID</th>
                 <th>Duty Name</th>
             </tr>
         </thead>
         <tbody>
             {{#each personToDuty}}
             <tr>
+                <td>{{personnelID}}</td>
                 <td>{{firstName}}</td>
                 <td>{{lastName}}</td>
+                <td>{{dutyID}}</td>
                 <td>{{dutyName}}</td>
             </tr>
             {{/each}}
