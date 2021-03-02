@@ -17,19 +17,18 @@ module.exports = function() {
     function getPerson(req_query, res, mysql, context, complete) {
         fname = req_query.fnameSearch;
         lname = req_query.lnameSearch;
-
         let query = "SELECT personnelId, firstName, lastName, rankID, shipId FROM personnel"
         let query_predicate = " WHERE firstName = \'" + fname + "\' AND lastName = \'" + lname + "\'"
 
-        // GET params from form
         mysql.pool.query(query + query_predicate, (error, results, fields) => {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
             }
             context.person = results;
-            complete();
         });
+        
+        getPersonnel(res, mysql, context, complete);
     }
 
     router.get('/person', (req, res) => {
