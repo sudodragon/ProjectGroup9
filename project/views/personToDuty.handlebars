@@ -24,16 +24,6 @@
         </fieldset>
     </form>
     <br>
-    
-    <form action="" method="get" id="allPersonDutyForm">
-        <fieldset>
-            <legend>
-                Complete Personnel to Duty Assignments:
-            </legend>
-
-            <input type="submit" value="Display Assignments" />
-        </fieldset>
-    </form>
 
     <h2>Personnel Duty Assignments</h2>
     <form>
@@ -44,15 +34,17 @@
     <table>
         <thead>
             <tr>
-                <th>Personnel ID</th>
-                <th>Duty ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Duty Name</th>
             </tr>
         </thead>
         <tbody>
-            {{#each personnel}}
+            {{#each personToDuty}}
             <tr>
-                <td>{{personnelId}}</td>
-                <td>{{dutyId}}</td>
+                <td>{{firstName}}</td>
+                <td>{{lastName}}</td>
+                <td>{{dutyName}}</td>
             </tr>
             {{/each}}
         </tbody>
