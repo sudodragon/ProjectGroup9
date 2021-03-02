@@ -10,7 +10,6 @@ module.exports = function() {
                 res.end();
             }
             context.missions = results;
-            console.log(context.missions);
             complete();
         });
     }
@@ -23,7 +22,6 @@ module.exports = function() {
         function complete(){
             callbackCount++;
             if (callbackCount >= 1) {
-                console.log(context.missions);
                 res.render('missions', context);
             }
         }      

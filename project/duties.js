@@ -10,7 +10,6 @@ module.exports = function() {
                 res.end();
             }
             context.duties = results;
-            console.log(context.duties);
             complete();
         });
     }
@@ -23,7 +22,6 @@ module.exports = function() {
         function complete(){
             callbackCount++;
             if (callbackCount >= 1) {
-                console.log(context.duties);
                 res.render('duties', context);
             }
         }      

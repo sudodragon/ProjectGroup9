@@ -10,7 +10,6 @@ module.exports = function() {
                 res.end();
             }
             context.ranks = results;
-            console.log(context.ranks);
             complete();
         });
     }
@@ -23,7 +22,6 @@ module.exports = function() {
         function complete(){
             callbackCount++;
             if (callbackCount >= 1) {
-                console.log(context.ranks);
                 res.render('ranks', context);
             }
         }      

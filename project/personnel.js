@@ -10,10 +10,43 @@ module.exports = function() {
                 res.end();
             }
             context.personnel = results;
-            console.log(context.personnel);
             complete();
         });
     }
+
+    function getPerson(req_query, res, mysql, context, complete) {
+        fname = req_query.fnameSearch;
+        lname = req_query.lnameSearch;
+
+        let query = "SELECT personnelId, firstName, lastName, rankID, shipId FROM personnel"
+        let query_predicate = " WHERE firstName = \'" + fname + "\' AND lastName = \'" + lname + "\'"
+
+        // GET params from form
+        mysql.pool.query(query + query_predicate, (error, results, fields) => {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.person = results;
+            complete();
+        });
+    }
+
+    router.get('/person', (req, res) => {
+        let callbackCount = 0;
+        let context = {};
+        let mysql = req.app.get('mysql');
+        getPerson(req.query, res, mysql, context, complete);
+
+        function complete(){
+            callbackCount++;
+            if (callbackCount >= 1) {
+                res.render('personnel', context);
+            }
+        }      
+    });
+
+
     router.get('/', (req, res) => {
         let callbackCount = 0;
         let context = {};
@@ -23,13 +56,11 @@ module.exports = function() {
         function complete(){
             callbackCount++;
             if (callbackCount >= 1) {
-                console.log(context.personnel);
                 res.render('personnel', context);
             }
         }      
     });
 
-//**************This section for ISNERT is untested******************
     router.post('/', function(req, res){
         let mysql = req.app.get('mysql');
         let sql = "INSERT INTO personnel (firstName, lastName) VALUES (?,?)";
