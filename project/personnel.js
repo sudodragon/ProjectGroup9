@@ -27,9 +27,21 @@ module.exports = function() {
             }
             context.person = results;
         });
-        
         getPersonnel(res, mysql, context, complete);
     }
+
+    function deletePerson(person_to_delete, res, mysql, context, complete) {
+        let query = "DELETE FROM personnel WHERE personnelId = " + person_to_delete + ";"
+
+        mysql.pool.query(query, (error, results, fields) => {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+        });
+        getPersonnel(res, mysql, context, complete);
+    }
+
 
     router.get('/person', (req, res) => {
         let callbackCount = 0;
@@ -51,6 +63,22 @@ module.exports = function() {
         let context = {};
         let mysql = req.app.get('mysql');
         getPersonnel(res, mysql, context, complete);
+
+        function complete(){
+            callbackCount++;
+            if (callbackCount >= 1) {
+                res.render('personnel', context);
+            }
+        }      
+    });
+
+    router.post('/delete', (req, res) => {
+        let callbackCount = 0;
+        let person_to_delete = req.body.personnelId
+        console.log("Going to delete " + person_to_delete);
+        let context = {};
+        let mysql = req.app.get('mysql');
+        deletePerson(person_to_delete, res, mysql, context, complete);
 
         function complete(){
             callbackCount++;

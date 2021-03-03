@@ -109,8 +109,11 @@
                 <td>{{lastName}}</td>
                 <td>{{rankId}}</td>
                 <td>{{shipId}}</td>
-                <td><form action="" method="delete" id="deletePersonForm">
-                    <input type="submit" id={{personnelId}} value="Delete"/></form>
+                <td>
+                    <form action="/personnel/delete" method="post" id="deletePersonForm">
+                        <input type="hidden" name="personnelId" value={{personnelId}}>
+                        <input type="submit" value="Delete"/>
+                    </form></td>
             </tr>
             {{/each}}
         </tbody>
