@@ -18,34 +18,7 @@
     </form>
     <br>
 
-    <form action="/personnel/update" method="post" id="updatePersonForm">
-        <fieldset>
-            <legend>Update Personnel:</legend>
-            <label>First Name:</label>
-            <input type="text" id="fnameUpdate" name="fnameUpdate">
-            <br>
-            <br>
-
-            <label>Last Name:</label>
-            <input type="text" id="lnameUpdate" name="lnameUpdate">
-            <br>
-            <br>
-
-            <label>Rank:</label>
-            <input type="text" id="rankUpdate" name="rankUpdate">
-            <br>
-            <br>
-
-            <label>Ship:</label>
-            <input type="text" id="shipUpdate" name="shipUpdate">
-            <br>
-            <br>
-
-            <input type="submit" id="submitButton" value="Update Personnel" />
-        </fieldset>
-    </form>
-    <br>
-
+    
     <form action="/personnel/person" method="get" id="findPersonForm">
         <fieldset>
             <legend>Individual Personnel Search:</legend>
@@ -110,10 +83,16 @@
                 <td>{{rankId}}</td>
                 <td>{{shipId}}</td>
                 <td>
+                    <form action="/personnel/update" method="get">
+                        <input type="hidden" name="personnelId" value={{personnelId}}>
+                        <input type="submit" value="Update"/>
+                    </form></td>
+                <td>
                     <form action="/personnel/delete" method="post" id="deletePersonForm">
                         <input type="hidden" name="personnelId" value={{personnelId}}>
                         <input type="submit" value="Delete"/>
                     </form></td>
+                
             </tr>
             {{/each}}
         </tbody>

@@ -88,6 +88,10 @@ module.exports = function() {
         }      
     });
 
+    router.get('/update', (req, res) => {
+        res.render("updatePersonnel");
+    });
+
     router.post('/update', function(req, res){
         let mysql = req.app.get('mysql');
         let [fnameUpdate, lnameUpdate, rankUpdate, shipUpdate] = [req.body.fnameUpdate, req.body.lnameUpdate, req.body.rankUpdate, req.body.shipUpdate]
