@@ -45,6 +45,10 @@
                 <td>{{lastName}}</td>
                 <td>{{dutyID}}</td>
                 <td>{{dutyName}}</td>
+                <td><form action="/personToDuty/delete" method="post">
+                        <input type="hidden" name="personnelID" value={{personnelID}}>
+                        <input type="hidden" name="dutyID" value={{dutyID}}>
+                        <input type="submit" value="Delete"/></form></td>
             </tr>
             {{/each}}
         </tbody>
