@@ -60,6 +60,22 @@ module.exports = function() {
         }      
     });
 
+    router.post('/update', function(req, res){
+        let mysql = req.app.get('mysql');
+        let [fnameUpdate, lnameUpdate, rankUpdate, shipUpdate] = [req.body.fnameUpdate, req.body.lnameUpdate, req.body.rankUpdate, req.body.shipUpdate]
+        let sql = "UPDATE personnel SET firstName = \'" + fnameUpdate + "\', lastName = \'" + lnameUpdate + "\', rankID = (SELECT rankID FROM ranks WHERE rankName = \'" + rankUpdate + "\'), shipID = (SELECT shipID FROM ships WHERE shipName = \'" + shipUpdate + "\') WHERE firstName = \'" + fnameUpdate + "\' and lastName = \'" + lnameUpdate + "\'";
+        let inserts = [req.body.fnameUpdate, req.body.lnameUpdate, req.body.rankUpdate, req.body.shipUpdate];
+        sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+            if(error){
+                console.log(JSON.stringify(error))
+                res.write(JSON.stringify(error));
+                res.end();
+            }else{
+                res.redirect('/personnel');
+            }
+        });
+    });
+
     router.post('/', function(req, res){
         let mysql = req.app.get('mysql');
         let sql = "INSERT INTO personnel (firstName, lastName) VALUES (?,?)";
