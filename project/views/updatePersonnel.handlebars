@@ -4,6 +4,9 @@
     <fieldset>
         {{#each updatePersonnel}}
         <legend>Update Personnel:</legend>
+        <input type="hidden" name="updatePersonnelID" value={{personnelID}}>
+        <br>
+        <br>
         <label>First Name:</label>
         <input type="text" id="fnameUpdate" name="fnameUpdate" value={{firstName}}>
         <br>

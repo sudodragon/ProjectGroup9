@@ -90,7 +90,7 @@ module.exports = function() {
 
     function getUpdatePersonnel(req, res, mysql, context, complete) {
         let personnelId = req.personnelId
-        let query = "SELECT firstName, lastName, rankName, shipName FROM personnel LEFT JOIN ranks ON personnel.rankID = ranks.rankID LEFT JOIN ships ON personnel.shipID = ships.shipID WHERE personnel.personnelID = \'" + personnelId + "\'";
+        let query = "SELECT personnelID, firstName, lastName, rankName, shipName FROM personnel LEFT JOIN ranks ON personnel.rankID = ranks.rankID LEFT JOIN ships ON personnel.shipID = ships.shipID WHERE personnel.personnelID = " + personnelId;
         mysql.pool.query(query, (error, results, fields) => {
             if (error) {
                 res.write(JSON.stringify(error));
@@ -118,8 +118,8 @@ module.exports = function() {
 
     router.post('/update', function(req, res){
         let mysql = req.app.get('mysql');
-        let [fnameUpdate, lnameUpdate, rankUpdate, shipUpdate] = [req.body.fnameUpdate, req.body.lnameUpdate, req.body.rankUpdate, req.body.shipUpdate]
-        let sql = "UPDATE personnel SET firstName = \'" + fnameUpdate + "\', lastName = \'" + lnameUpdate + "\', rankID = (SELECT rankID FROM ranks WHERE rankName = \'" + rankUpdate + "\'), shipID = (SELECT shipID FROM ships WHERE shipName = \'" + shipUpdate + "\') WHERE firstName = \'" + fnameUpdate + "\' and lastName = \'" + lnameUpdate + "\'";
+        let [updatePersonnelID, fnameUpdate, lnameUpdate, rankUpdate, shipUpdate] = [req.body.updatePersonnelID, req.body.fnameUpdate, req.body.lnameUpdate, req.body.rankUpdate, req.body.shipUpdate]
+        let sql = "UPDATE personnel SET firstName = \'" + fnameUpdate + "\', lastName = \'" + lnameUpdate + "\', rankID = (SELECT rankID FROM ranks WHERE rankName = \'" + rankUpdate + "\'), shipID = (SELECT shipID FROM ships WHERE shipName = \'" + shipUpdate + "\') WHERE personnelID = \'" + updatePersonnelID + "\'";
         let inserts = [req.body.fnameUpdate, req.body.lnameUpdate, req.body.rankUpdate, req.body.shipUpdate];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
