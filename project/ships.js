@@ -27,11 +27,10 @@ module.exports = function() {
         }      
     });
 
-//**************This section for ISNERT is untested******************
     router.post('/', function(req, res){
         let mysql = req.app.get('mysql');
         let sql = "INSERT INTO ships (shipName, registry, class, currentLocation) VALUES (?,?,?,?)";
-        let inserts = [req.body.shipName, req.body.registry, req.body.class, req.body.currentLocation];
+        let inserts = [req.body.shipName, req.body.registryNumber, req.body.class, req.body.currentLocation];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
                 console.log(JSON.stringify(error))
