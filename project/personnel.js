@@ -88,8 +88,32 @@ module.exports = function() {
         }      
     });
 
+    function getUpdatePersonnel(req, res, mysql, context, complete) {
+        let personnelId = req.personnelId
+        let query = "SELECT firstName, lastName, rankName, shipName FROM personnel LEFT JOIN ranks ON personnel.rankID = ranks.rankID LEFT JOIN ships ON personnel.shipID = ships.shipID WHERE personnel.personnelID = \'" + personnelId + "\'";
+        mysql.pool.query(query, (error, results, fields) => {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            console.log(results)
+            context.updatePersonnel = results;
+            complete();
+        });
+    }
+
     router.get('/update', (req, res) => {
-        res.render("updatePersonnel");
+        let callbackCount = 0;
+        let context = {};
+        let mysql = req.app.get('mysql');
+        getUpdatePersonnel(req.query, res, mysql, context, complete);
+
+        function complete(){
+            callbackCount++;
+            if (callbackCount >= 1) {
+                res.render('updatePersonnel', context);
+            }
+        }      
     });
 
     router.post('/update', function(req, res){

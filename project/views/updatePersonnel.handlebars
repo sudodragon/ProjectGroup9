@@ -1,27 +1,32 @@
+
+{{#if updatePersonnel}}
 <form action="/personnel/update" method="post" id="updatePersonForm">
-        <fieldset>
-            <legend>Update Personnel:</legend>
-            <label>First Name:</label>
-            <input type="text" id="fnameUpdate" name="fnameUpdate">
-            <br>
-            <br>
+    <fieldset>
+        {{#each updatePersonnel}}
+        <legend>Update Personnel:</legend>
+        <label>First Name:</label>
+        <input type="text" id="fnameUpdate" name="fnameUpdate" value={{firstName}}>
+        <br>
+        <br>
 
-            <label>Last Name:</label>
-            <input type="text" id="lnameUpdate" name="lnameUpdate">
-            <br>
-            <br>
+        <label>Last Name:</label>
+        <input type="text" id="lnameUpdate" name="lnameUpdate" value={{lastName}}>
+        <br>
+        <br>
 
-            <label>Rank:</label>
-            <input type="text" id="rankUpdate" name="rankUpdate">
-            <br>
-            <br>
+        <label>Rank:</label>
+        <input type="text" id="rankUpdate" name="rankUpdate" value={{rankName}}>
+        <br>
+        <br>
 
-            <label>Ship:</label>
-            <input type="text" id="shipUpdate" name="shipUpdate">
-            <br>
-            <br>
+        <label>Ship:</label>
+        <input type="text" id="shipUpdate" name="shipUpdate" value="{{shipName}}">
+        <br>
+        <br>
 
-            <input type="submit" id="submitButton" value="Update Personnel" />
-        </fieldset>
-    </form>
-    <br>
+        <input type="submit" id="submitButton" value="Update Personnel" />
+        {{/each}}
+    </fieldset>
+</form>
+<br>
+{{/if}}
