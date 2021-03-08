@@ -27,6 +27,8 @@ module.exports = function() {
         }      
     });
 
+    //currentLocation and missionId don't work yet
+
     router.post('/', function(req, res){
         let mysql = req.app.get('mysql');
         let sql = "INSERT INTO ships (shipName, registry, class, currentLocation) VALUES (?,?,?,?)";

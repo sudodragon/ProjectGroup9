@@ -1,9 +1,10 @@
-module.exports = function() {
+module.exports = function () {
     let express = require('express');
     let router = express.Router();
-    
+
+    // Functions
     function getPersonnel(res, mysql, context, complete) {
-        let query = "SELECT personnelId, firstName, lastName, rankId, shipId FROM personnel";
+        let query = "SELECT personnelId, firstName, lastName, rankName, shipName FROM personnel LEFT JOIN ships ON personnel.shipID = ships.shipID LEFT JOIN ranks on personnel.rankID = ranks.rankID"
         mysql.pool.query(query, (error, results, fields) => {
             if (error) {
                 res.write(JSON.stringify(error));
@@ -15,10 +16,9 @@ module.exports = function() {
     }
 
     function getPerson(req_query, res, mysql, context, complete) {
-        fname = req_query.fnameSearch;
-        lname = req_query.lnameSearch;
-        let query = "SELECT personnelId, firstName, lastName, rankID, shipId FROM personnel"
-        let query_predicate = " WHERE firstName = \'" + fname + "\' AND lastName = \'" + lname + "\'"
+        let personnelId = req_query.personnelId;
+        let query = "SELECT personnelId, firstName, lastName, rankName, shipName FROM personnel LEFT JOIN ships ON personnel.shipID = ships.shipID LEFT JOIN ranks on personnel.rankID = ranks.rankID";
+        let query_predicate = " WHERE personnelId = " + personnelId;
 
         mysql.pool.query(query + query_predicate, (error, results, fields) => {
             if (error) {
@@ -42,21 +42,61 @@ module.exports = function() {
         getPersonnel(res, mysql, context, complete);
     }
 
+    function getUpdatePersonnel(req, res, mysql, context, complete) {
+        let personnelId = req.personnelId
+        let query = "SELECT personnelID, firstName, lastName, rankName, shipName FROM personnel LEFT JOIN ranks ON personnel.rankID = ranks.rankID LEFT JOIN ships ON personnel.shipID = ships.shipID WHERE personnel.personnelID = " + personnelId;
+        mysql.pool.query(query, (error, results, fields) => {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.updatePersonnel = results;
+            context.person = results[0];
+            complete();
+        });
+    }
 
+    function getRanks(res, mysql, context, complete) {
+        let query = "SELECT rankId, rankName FROM ranks";
+
+        mysql.pool.query(query, (error, results, fields) => {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.ranks = results;
+            complete();
+        });
+    }
+
+    function getShips(res, mysql, context, complete) {
+        let query = "SELECT shipId, shipName FROM ships";
+
+        mysql.pool.query(query, (error, results, fields) => {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.ships = results;
+            complete();
+        });
+    }
+
+
+    //Routes
     router.get('/person', (req, res) => {
         let callbackCount = 0;
         let context = {};
         let mysql = req.app.get('mysql');
         getPerson(req.query, res, mysql, context, complete);
 
-        function complete(){
+        function complete() {
             callbackCount++;
             if (callbackCount >= 1) {
                 res.render('personnel', context);
             }
-        }      
+        }
     });
-
 
     router.get('/', (req, res) => {
         let callbackCount = 0;
@@ -64,12 +104,12 @@ module.exports = function() {
         let mysql = req.app.get('mysql');
         getPersonnel(res, mysql, context, complete);
 
-        function complete(){
+        function complete() {
             callbackCount++;
             if (callbackCount >= 1) {
                 res.render('personnel', context);
             }
-        }      
+        }
     });
 
     router.post('/delete', (req, res) => {
@@ -80,68 +120,63 @@ module.exports = function() {
         let mysql = req.app.get('mysql');
         deletePerson(person_to_delete, res, mysql, context, complete);
 
-        function complete(){
+        function complete() {
             callbackCount++;
             if (callbackCount >= 1) {
                 res.render('personnel', context);
             }
-        }      
+        }
     });
-
-    function getUpdatePersonnel(req, res, mysql, context, complete) {
-        let personnelId = req.personnelId
-        let query = "SELECT personnelID, firstName, lastName, rankName, shipName FROM personnel LEFT JOIN ranks ON personnel.rankID = ranks.rankID LEFT JOIN ships ON personnel.shipID = ships.shipID WHERE personnel.personnelID = " + personnelId;
-        mysql.pool.query(query, (error, results, fields) => {
-            if (error) {
-                res.write(JSON.stringify(error));
-                res.end();
-            }
-            console.log(results)
-            context.updatePersonnel = results;
-            complete();
-        });
-    }
 
     router.get('/update', (req, res) => {
         let callbackCount = 0;
         let context = {};
         let mysql = req.app.get('mysql');
         getUpdatePersonnel(req.query, res, mysql, context, complete);
+        getRanks(res, mysql, context, complete);
+        getShips(res, mysql, context, complete);
 
-        function complete(){
+        function complete() {
             callbackCount++;
-            if (callbackCount >= 1) {
+            if (callbackCount >= 3) {
                 res.render('updatePersonnel', context);
             }
-        }      
+        }
     });
 
-    router.post('/update', function(req, res){
+    router.post('/update', function (req, res) {
         let mysql = req.app.get('mysql');
-        let [updatePersonnelID, fnameUpdate, lnameUpdate, rankUpdate, shipUpdate] = [req.body.updatePersonnelID, req.body.fnameUpdate, req.body.lnameUpdate, req.body.rankUpdate, req.body.shipUpdate]
-        let sql = "UPDATE personnel SET firstName = \'" + fnameUpdate + "\', lastName = \'" + lnameUpdate + "\', rankID = (SELECT rankID FROM ranks WHERE rankName = \'" + rankUpdate + "\'), shipID = (SELECT shipID FROM ships WHERE shipName = \'" + shipUpdate + "\') WHERE personnelID = \'" + updatePersonnelID + "\'";
+
+        let [updatePersonnelID, fnameUpdate, lnameUpdate, rankUpdate, shipIdUpdate] = [req.body.updatePersonnelID, String(req.body.fnameUpdate), String(req.body.lnameUpdate), req.body.rankUpdate, req.body.shipUpdate]
+        console.log(req.body);
+
+        let sql = 'UPDATE personnel SET firstName = \"' + fnameUpdate 
+                + '\", lastName = \"' + lnameUpdate 
+                + '\", rankID = ' + rankUpdate 
+                + ', shipID = ' + shipIdUpdate 
+                + ' WHERE personnelID = ' + updatePersonnelID;
         let inserts = [req.body.fnameUpdate, req.body.lnameUpdate, req.body.rankUpdate, req.body.shipUpdate];
-        sql = mysql.pool.query(sql,inserts,function(error, results, fields){
-            if(error){
+        sql = mysql.pool.query(sql, inserts, function (error, results, fields) {
+            if (error) {
                 console.log(JSON.stringify(error))
                 res.write(JSON.stringify(error));
                 res.end();
-            }else{
+            } else {
                 res.redirect('/personnel');
             }
         });
     });
 
-    router.post('/', function(req, res){
+    router.post('/', function (req, res) {
         let mysql = req.app.get('mysql');
         let sql = "INSERT INTO personnel (firstName, lastName) VALUES (?,?)";
         let inserts = [req.body.firstName, req.body.lastName];
-        sql = mysql.pool.query(sql,inserts,function(error, results, fields){
-            if(error){
+        sql = mysql.pool.query(sql, inserts, function (error, results, fields) {
+            if (error) {
                 console.log(JSON.stringify(error))
                 res.write(JSON.stringify(error));
                 res.end();
-            }else{
+            } else {
                 res.redirect('/personnel');
             }
         });

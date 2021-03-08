@@ -22,15 +22,13 @@
     <form action="/personnel/person" method="get" id="findPersonForm">
         <fieldset>
             <legend>Individual Personnel Search:</legend>
-            <label>First Name:</label>
-            <input type="text" id="fnameSearch" name="fnameSearch">
-            <br>
-            <br>
-
-            <label>Last Name:</label>
-            <input type="text" id="lnameSearch" name="lnameSearch">
-            <br>
-            <br>
+            <label>Select Personnel:</label>
+            <select name="personnelId" form="findPersonForm">
+                {{#each personnel}}
+                    <option value={{personnelId}}>{{firstName}} {{lastName}}</option>
+                {{/each}}
+            </select>
+        
 
             <input type="submit" id="submitButton" value="Retrieve Personnel Information" />
             <br>
@@ -42,8 +40,8 @@
                         <th>Personnel ID</th>
                         <th>First Name</th>
                         <th>Last Name</th>
-                        <th>Rank ID</th>
-                        <th>Ship ID</th>
+                        <th>Rank</th>
+                        <th>Ship</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,8 +50,8 @@
                         <td>{{personnelId}}</td>
                         <td>{{firstName}}</td>
                         <td>{{lastName}}</td>
-                        <td>{{rankID}}</td>
-                        <td>{{shipID}}</td>
+                        <td>{{rankName}}</td>
+                        <td>{{shipName}}</td>
                     </tr>
                     {{/each}}
                 </tbody>
@@ -70,8 +68,8 @@
                 <th>Personnel ID</th>
                 <th>First Name</th>
                 <th>Last Name</th>
-                <th>Rank ID</th>
-                <th>Ship ID</th>
+                <th>Rank</th>
+                <th>Ship</th>
             </tr>
         </thead>
         <tbody>
@@ -80,8 +78,8 @@
                 <td>{{personnelId}}</td>
                 <td>{{firstName}}</td>
                 <td>{{lastName}}</td>
-                <td>{{rankId}}</td>
-                <td>{{shipId}}</td>
+                <td>{{rankName}}</td>
+                <td>{{shipName}}</td>
                 <td>
                     <form action="/personnel/update" method="get">
                         <input type="hidden" name="personnelId" value={{personnelId}}>

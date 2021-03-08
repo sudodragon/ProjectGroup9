@@ -1,35 +1,39 @@
 
-{{#if updatePersonnel}}
 <form action="/personnel/update" method="post" id="updatePersonForm">
     <fieldset>
-        {{#each updatePersonnel}}
         <legend>Update Personnel:</legend>
-        <input type="hidden" name="updatePersonnelID" value={{personnelID}}>
+        <input type="hidden" name="updatePersonnelID" value={{person.personnelID}}>
         <br>
         <br>
+        
         <label>First Name:</label>
-        <input type="text" id="fnameUpdate" name="fnameUpdate" value={{firstName}}>
+        <input type="text" id="fnameUpdate" name="fnameUpdate" value={{person.firstName}}>
         <br>
         <br>
 
         <label>Last Name:</label>
-        <input type="text" id="lnameUpdate" name="lnameUpdate" value={{lastName}}>
+        <input type="text" id="lnameUpdate" name="lnameUpdate" value={{person.lastName}}>
+        <br>
+        <br>
+        <label for="rankUpdate">Rank: {{person.rankName}}</label>
+        <select name="rankUpdate">
+                {{#each ranks}}
+                    <option value={{rankId}}>{{rankName}}</option>
+                {{/each}}
+        </select>
         <br>
         <br>
 
-        <label>Rank:</label>
-        <input type="text" id="rankUpdate" name="rankUpdate" value={{rankName}}>
-        <br>
-        <br>
-
-        <label>Ship:</label>
-        <input type="text" id="shipUpdate" name="shipUpdate" value="{{shipName}}">
+        <label for="shipUpdate">Ship: {{person.shipName}}</label>
+        <select name="shipUpdate">
+                {{#each ships}}
+                    <option value={{shipId}}>{{shipName}}</option>
+                {{/each}}
+        </select>
         <br>
         <br>
 
         <input type="submit" id="submitButton" value="Update Personnel" />
-        {{/each}}
     </fieldset>
 </form>
 <br>
-{{/if}}
