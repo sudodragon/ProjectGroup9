@@ -15,19 +15,19 @@
         <input type="text" id="lnameUpdate" name="lnameUpdate" value={{person.lastName}}>
         <br>
         <br>
-        <label for="rankUpdate">Rank: {{person.rankName}}</label>
+        <label for="rankUpdate">Rank:</label>
         <select name="rankUpdate">
                 {{#each ranks}}
-                    <option value={{rankId}}>{{rankName}}</option>
+                    <option value={{rankId}} {{optionSelector @root.person.rankName rankName}}>{{rankName}}</option>
                 {{/each}}
         </select>
         <br>
         <br>
 
-        <label for="shipUpdate">Ship: {{person.shipName}}</label>
+        <label for="shipUpdate">Ship:</label>
         <select name="shipUpdate">
                 {{#each ships}}
-                    <option value={{shipId}}>{{shipName}}</option>
+                    <option value={{shipId}} {{optionSelector @root.person.shipName shipName}}>{{shipName}}</option>
                 {{/each}}
         </select>
         <br>

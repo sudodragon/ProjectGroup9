@@ -10,6 +10,13 @@ let port = 9151;
 
 app.engine('handlebars', exphbs.engine);
 app.set('view engine', 'handlebars');
+
+exphbs.handlebars.registerHelper('optionSelector', function(option, selected) {
+    if (option === selected) {
+        return 'selected';
+    }
+  });
+
 app.use(bodyparser.urlencoded({extended:true}));
 app.use('/static', express.static('public'));
 app.set('mysql', mysql);
