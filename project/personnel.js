@@ -149,6 +149,14 @@ module.exports = function () {
 
         let [updatePersonnelID, fnameUpdate, lnameUpdate, rankUpdate, shipIdUpdate] = [req.body.updatePersonnelID, String(req.body.fnameUpdate), String(req.body.lnameUpdate), req.body.rankUpdate, req.body.shipUpdate]
         console.log(req.body);
+        
+        if (rankUpdate === "") {
+            rankUpdate = null;
+        }
+
+        if (shipIdUpdate === "") {
+            shipIdUpdate = null;
+        }
 
         let sql = 'UPDATE personnel SET firstName = \"' + fnameUpdate 
                 + '\", lastName = \"' + lnameUpdate 

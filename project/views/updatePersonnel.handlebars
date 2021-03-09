@@ -17,6 +17,7 @@
         <br>
         <label for="rankUpdate">Rank:</label>
         <select name="rankUpdate">
+                <option value=""></option>
                 {{#each ranks}}
                     <option value={{rankId}} {{optionSelector @root.person.rankName rankName}}>{{rankName}}</option>
                 {{/each}}
@@ -26,6 +27,7 @@
 
         <label for="shipUpdate">Ship:</label>
         <select name="shipUpdate">
+                <option value=""></option>
                 {{#each ships}}
                     <option value={{shipId}} {{optionSelector @root.person.shipName shipName}}>{{shipName}}</option>
                 {{/each}}
