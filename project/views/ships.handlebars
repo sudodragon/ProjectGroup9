@@ -20,8 +20,13 @@
             <input type="text" id="currentLocation" name="currentLocation">
             <br>
             <br>
-            <label for="missionID">Mission ID:</label>
-            <input type="number" id="missionID" name="missionID">
+            <label for="missionId">Mission:</label>
+            <select name="missionId">
+                <option value=""></option>
+                {{#each missions}}
+                    <option value={{missionId}}>{{directive}}</option>
+                {{/each}}
+            </select>
             <br>
             <br>
             <input type="submit" value="Add Ship">
@@ -50,7 +55,7 @@
                 <td>{{registry}}</td>
                 <td>{{class}}</td>
                 <td>{{currentLocation}}</td>
-                <td>{{missionId}}</td>
+                <td>{{directive}}</td>
             </tr>
             {{/each}}
         </tbody>
