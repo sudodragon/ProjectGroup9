@@ -13,15 +13,43 @@ module.exports = function () {
             complete();
         });
     }
+
+    function getPersonnel(res, mysql, context, complete) {
+        let query = "SELECT personnelId, firstName, lastName FROM personnel";
+        mysql.pool.query(query, (error, results, fields) => {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.personnel = results;
+            complete();
+        });
+    }
+
+    function getDuties(res, mysql, context, complete) {
+        let query = "SELECT dutyId, dutyName FROM duties";
+        mysql.pool.query(query, (error, results, fields) => {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.duties = results;
+            complete();
+        });
+    }
+
+
     router.get('/', (req, res) => {
         let callbackCount = 0;
         let context = {};
         let mysql = req.app.get('mysql');
         getPersonnelDuties(res, mysql, context, complete);
+        getPersonnel(res, mysql, context, complete);
+        getDuties(res, mysql, context, complete);
 
         function complete() {
             callbackCount++;
-            if (callbackCount >= 1) {
+            if (callbackCount >= 3) {
                 res.render('personToDuty', context);
             }
         }
@@ -45,9 +73,8 @@ module.exports = function () {
 
     router.post('/', function(req, res){
         let mysql = req.app.get('mysql');
-        let [firstName, lastName, dutyName] = [req.body.firstName, req.body.lastName, req.body.dutyName]
-        let sql = "INSERT INTO personnel_duties (personnelID, dutyID) VALUES ((SELECT personnelID FROM personnel WHERE firstName = \'" + firstName + "\' and lastName = \'" + lastName + "\'), (SELECT dutyID FROM duties WHERE dutyName = \'" + dutyName + "\'))";
-        let inserts = [req.body.firstName, req.body.lastName, req.body.dutyName];
+        let sql = "INSERT INTO personnel_duties (personnelID, dutyID) VALUES (?,?)";
+        let inserts = [req.body.personnelId, req.body.dutyId];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
                 console.log(JSON.stringify(error))

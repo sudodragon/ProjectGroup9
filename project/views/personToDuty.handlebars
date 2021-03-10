@@ -5,18 +5,20 @@
             <legend>
                 Add Duty
             </legend>
-            <label>First Name:</label>
-            <input type="text" name="firstName">
+            <label for="personnelId">Personnel:</label>
+            <select name="personnelId">
+                {{#each personnel}}
+                    <option value={{personnelId}}>{{firstName}} {{lastName}}</option>
+                {{/each}}
+            </select>
             <br>
             <br>
-
-            <label>Last Name:</label>
-            <input type="text" name="lastName">
-            <br>
-            <br>
-
-            <label>Duty Name:</label>
-            <input type="text" name="dutyName">
+            <label for="dutyId">Duty:</label>
+            <select name="dutyId">
+                {{#each duties}}
+                    <option value={{dutyId}}>{{dutyName}}</option>
+                {{/each}}
+            </select>
             <br>
             <br>
 
