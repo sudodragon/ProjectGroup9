@@ -48,8 +48,12 @@ module.exports = function() {
 
     router.post('/', function(req, res){
         let mysql = req.app.get('mysql');
+        let missionId = req.body.missionId
+        if (missionId === "") {
+            missionId = null;
+        }
         let sql = "INSERT INTO ships (shipName, registry, class, currentLocation, missionId) VALUES (?,?,?,?,?)";
-        let inserts = [req.body.shipName, req.body.registryNumber, req.body.class, req.body.currentLocation, req.body.missionId];
+        let inserts = [req.body.shipName, req.body.registryNumber, req.body.class, req.body.currentLocation, missionId];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
                 console.log(JSON.stringify(error))
