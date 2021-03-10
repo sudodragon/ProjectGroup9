@@ -78,14 +78,15 @@ INSERT INTO missions (directive, status, location)
 VALUES 
     ("Find Klingon ambassador", 1, "Klingon"),
     ("Find Spock", 3, "Vulcan"),
-    ("Guard shpiing lanes", 1, "Starbase 83"),
+    ("Guard shipping lanes", 1, "Starbase 83"),
     ("Investigate subspace anomaly", 2, "Crab Nebula"),
     ("Transport Ambassador Pike", 3, "Feringenar");
 
 INSERT INTO personnel (firstName, lastName)
 VALUES 
     ('James', 'Kirk'),
-    ('Spock', 'Unknown'),
+    ('S''chn', 'Spock'),
+    ('William', 'Riker'),
     ('Jean-Luc', 'Picard');
 
 INSERT INTO duties (dutyName, priority, responsibilities)
