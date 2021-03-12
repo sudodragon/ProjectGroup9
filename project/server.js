@@ -6,7 +6,7 @@ let mysql = require('./dbcon.js');
 
 let bodyparser = require('body-parser');
 let app = express();
-let port = 9151;
+let port = 9150;
 
 app.engine('handlebars', exphbs.engine);
 app.set('view engine', 'handlebars');

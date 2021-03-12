@@ -38,7 +38,6 @@ module.exports = function () {
         });
     }
 
-
     router.get('/', (req, res) => {
         let callbackCount = 0;
         let context = {};
@@ -84,7 +83,7 @@ module.exports = function () {
                 res.redirect('/personToDuty');
             }
         });
-    });
+    });  
     
     return router;
 }();

@@ -13,6 +13,7 @@ module.exports = function() {
             complete();
         });
     }
+
     router.get('/', (req, res) => {
         let callbackCount = 0;
         let context = {};
@@ -27,21 +28,20 @@ module.exports = function() {
         }      
     });
 
-//**************This section for ISNERT is untested******************
     router.post('/', function(req, res){
         let mysql = req.app.get('mysql');
         let sql = "INSERT INTO ranks (rankName, pay, minYears) VALUES (?,?,?)";
         let inserts = [req.body.rankName, req.body.pay, req.body.minYears];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
-            if(error){
+            if (error) {
                 console.log(JSON.stringify(error))
                 res.write(JSON.stringify(error));
                 res.end();
-            }else{
+            } else {
                 res.redirect('/ranks');
             }
         });
     });
-
+    
     return router;
 }();

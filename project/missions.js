@@ -27,17 +27,16 @@ module.exports = function() {
         }      
     });
 
-//**************This section for INSERT is untested******************
     router.post('/', function(req, res){
         let mysql = req.app.get('mysql');
         let sql = "INSERT INTO missions (directive, status, location) VALUES (?,?,?)";
         let inserts = [req.body.directive, req.body.status, req.body.location];
-        sql = mysql.pool.query(sql,inserts,function(error, results, fields){
-            if(error){
+        sql = mysql.pool.query(sql, inserts, function (error, results, fields) {
+            if (error) {
                 console.log(JSON.stringify(error))
                 res.write(JSON.stringify(error));
                 res.end();
-            }else{
+            } else {
                 res.redirect('/missions');
             }
         });

@@ -16,11 +16,10 @@ module.exports = function () {
     }
 
     function getPerson(req_query, res, mysql, context, complete) {
-        let personnelId = req_query.personnelId;
-        let query = "SELECT personnelId, firstName, lastName, rankName, shipName FROM personnel LEFT JOIN ships ON personnel.shipID = ships.shipID LEFT JOIN ranks on personnel.rankID = ranks.rankID";
-        let query_predicate = " WHERE personnelId = " + personnelId;
+        let query = "SELECT personnelId, firstName, lastName, rankName, shipName FROM personnel LEFT JOIN ships ON personnel.shipID = ships.shipID LEFT JOIN ranks on personnel.rankID = ranks.rankID WHERE personnelId = (?);";
+        let inserts = [req_query.personnelId];
 
-        mysql.pool.query(query + query_predicate, (error, results, fields) => {
+        sql = mysql.pool.query(query, inserts, (error, results, fields) => {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
@@ -33,9 +32,9 @@ module.exports = function () {
     }
 
     function deletePerson(person_to_delete, res, mysql, context, complete) {
-        let query = "DELETE FROM personnel WHERE personnelId = " + person_to_delete + ";"
-
-        mysql.pool.query(query, (error, results, fields) => {
+        let query = "DELETE FROM personnel WHERE personnelId = (?);"
+        let inserts = [person_to_delete]
+        sql = mysql.pool.query(query, inserts, (error, results, fields) => {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
@@ -99,7 +98,7 @@ module.exports = function () {
 
         function complete() {
             callbackCount++;
-            if (callbackCount >= 1) {
+            if (callbackCount >= 3) {
                 res.render('personnel', context);
             }
         }

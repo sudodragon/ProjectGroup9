@@ -27,7 +27,6 @@ module.exports = function() {
         });
     }
 
-
     router.get('/', (req, res) => {
         let callbackCount = 0;
         let context = {};
@@ -38,28 +37,27 @@ module.exports = function() {
         function complete(){
             callbackCount++;
             if (callbackCount >= 2) {
-                console.log(context)
                 res.render('ships', context);
             }
         }      
     });
 
-    //currentLocation and missionId don't work yet
-
     router.post('/', function(req, res){
         let mysql = req.app.get('mysql');
-        let missionId = req.body.missionId
+        let missionId = req.body.missionId;
+
         if (missionId === "") {
             missionId = null;
         }
+
         let sql = "INSERT INTO ships (shipName, registry, class, currentLocation, missionId) VALUES (?,?,?,?,?)";
         let inserts = [req.body.shipName, req.body.registryNumber, req.body.class, req.body.currentLocation, missionId];
-        sql = mysql.pool.query(sql,inserts,function(error, results, fields){
-            if(error){
+        sql = mysql.pool.query(sql, inserts, function(error, results, fields){
+            if (error) {
                 console.log(JSON.stringify(error))
                 res.write(JSON.stringify(error));
                 res.end();
-            }else{
+            } else {
                 res.redirect('/ships');
             }
         });
