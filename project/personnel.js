@@ -28,6 +28,8 @@ module.exports = function () {
             context.person = results;
         });
         getPersonnel(res, mysql, context, complete);
+        getRanks(res, mysql, context, complete);
+        getShips(res, mysql, context, complete);
     }
 
     function deletePerson(person_to_delete, res, mysql, context, complete) {
@@ -40,6 +42,8 @@ module.exports = function () {
             }
         });
         getPersonnel(res, mysql, context, complete);
+        getRanks(res, mysql, context, complete);
+        getShips(res, mysql, context, complete);
     }
 
     function getUpdatePersonnel(req, res, mysql, context, complete) {
@@ -64,6 +68,8 @@ module.exports = function () {
                 res.write(JSON.stringify(error));
                 res.end();
             }
+            let nullRank = {rankId: "", rankName: "Not Assigned"};
+            results.unshift(nullRank);
             context.ranks = results;
             complete();
         });
@@ -77,11 +83,12 @@ module.exports = function () {
                 res.write(JSON.stringify(error));
                 res.end();
             }
+            let nullShip = {shipId: "", shipName: "Not Assigned"};
+            results.unshift(nullShip);
             context.ships = results;
             complete();
         });
     }
-
 
     //Routes
     router.get('/person', (req, res) => {
@@ -103,10 +110,12 @@ module.exports = function () {
         let context = {};
         let mysql = req.app.get('mysql');
         getPersonnel(res, mysql, context, complete);
+        getRanks(res, mysql, context, complete);
+        getShips(res, mysql, context, complete);
 
         function complete() {
             callbackCount++;
-            if (callbackCount >= 1) {
+            if (callbackCount >= 3) {
                 res.render('personnel', context);
             }
         }
@@ -115,14 +124,13 @@ module.exports = function () {
     router.post('/delete', (req, res) => {
         let callbackCount = 0;
         let person_to_delete = req.body.personnelId
-        console.log("Going to delete " + person_to_delete);
         let context = {};
         let mysql = req.app.get('mysql');
         deletePerson(person_to_delete, res, mysql, context, complete);
 
         function complete() {
             callbackCount++;
-            if (callbackCount >= 1) {
+            if (callbackCount >= 3) {
                 res.render('personnel', context);
             }
         }
@@ -177,8 +185,20 @@ module.exports = function () {
 
     router.post('/', function (req, res) {
         let mysql = req.app.get('mysql');
-        let sql = "INSERT INTO personnel (firstName, lastName) VALUES (?,?)";
-        let inserts = [req.body.firstName, req.body.lastName];
+        let rankId = req.body.rankId;
+        let shipId = req.body.shipId;
+
+        if (rankId == "") {
+            rankId = null;
+        };
+
+        if (shipId == "") {
+            shipId = null;
+        };
+  
+        let sql = "INSERT INTO personnel (firstName, lastName, rankId, shipId) VALUES (?,?,?,?)";
+        let inserts = [req.body.firstName, req.body.lastName, rankId, shipId];
+
         sql = mysql.pool.query(sql, inserts, function (error, results, fields) {
             if (error) {
                 console.log(JSON.stringify(error))

@@ -13,6 +13,23 @@
             <br>
             <br>
 
+            <label>Rank:</label>
+            <select name="rankId" form="addPersonForm">
+                {{#each ranks}}
+                    <option value={{rankId}}>{{rankName}}</option>
+                {{/each}}
+            </select>
+            <br>
+            <br>
+
+            <label>Ship</label>
+            <select name="shipId" form="addPersonForm">
+                {{#each ships}}
+                    <option value={{shipId}}>{{shipName}}</option>
+                {{/each}}
+            </select>
+            <br>
+            <br>
             <input type="submit" id="submitButton" value="Add Personnel" />
         </fieldset>
     </form>
@@ -28,7 +45,8 @@
                     <option value={{personnelId}}>{{firstName}} {{lastName}}</option>
                 {{/each}}
             </select>
-        
+            <br>
+            <br>
 
             <input type="submit" id="submitButton" value="Retrieve Personnel Information" />
             <br>
