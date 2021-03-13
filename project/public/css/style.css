@@ -1,0 +1,15 @@
+html {
+    
+    background-size: cover;
+    background: linear-gradient(to bottom right, rgb(160, 160, 160), rgb(240, 240, 240),  rgb(160, 160, 160)) no-repeat center center fixed;
+}
+
+table, th, td {
+    border: 1px solid black;
+    text-align: left;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
