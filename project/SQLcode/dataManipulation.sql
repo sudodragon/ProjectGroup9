@@ -1,48 +1,88 @@
--- Select, insert, update, delete
+-- Ships INSERT
+INSERT INTO ships (shipName, registry, class, currentLocation, missionID)
+VALUES (#shipName, #registry, #class, #currentLocation, #missionId);
 
--- Ranks
-INSERT INTO ranks (rankName, pay, minYears)
-VALUES (#rankName, #pay, #minYears);
+-- Ships SELECT for display, with mission.directive in place of FK
+SELECT shipId, shipName, registry, class, currentLocation, directive 
+FROM ships 
+LEFT JOIN missions ON ships.missionID = missions.missionID;
 
-SELECT * FROM ranks;
+-- Missions SELECT for use in Ships page
+SELECT missionId, directive FROM missions
 
--- Ships
-INSERT INTO ships (shipName, registry, class, currentLocation)
-VALUES (#shipName, #registry, #class, #currentLocation);
+-- Ranks SELECT
+SELECT rankId, rankName, pay, minYears FROM ranks;
 
-SELECT * FROM ships;
+-- Ranks INSERT
+INSERT INTO ranks (rankName, pay, minYears) VALUES (#rankName, #pay, #minYears);
 
--- Missions
-INSERT INTO missions (directive, status, location)
-VALUES (#directive, #status, #location);
+-- Personnel_duties SELECT for display, with personnel.firstName, personnel.lastName and duties.dutyName also displayed
+SELECT personnel_duties.personnelID, firstName, lastName, personnel_duties.dutyID, dutyName 
+FROM personnel_duties 
+INNER JOIN personnel ON personnel_duties.personnelID = personnel.personnelID 
+INNER JOIN duties ON personnel_duties.dutyID = duties.dutyID;
 
-SELECT * FROM missions;
+-- Personnel SELECT for PersonToDuty intersection table page
+SELECT personnelId, firstName, lastName FROM personnel;
 
--- Personnel
-INSERT INTO personnel (firstName, lastName)
-VALUES (#firstName, #lastName);
+-- Duties SELECT for PersonToDuty intersection table page
+SELECT dutyId, dutyName FROM duties;
 
-UPDATE personnel
-SET firstName = #firstName, lastName = #lastName, rankID = (SELECT rankID FROM ranks WHERE rankName = #rankName), 
-    shipID = (SELECT shipID FROM ships WHERE shipName = # shipName);
+-- Personnel_duties DELETE
+DELETE FROM personnel_duties WHERE personnelID = #personnelID and dutyID = #dutyID;
 
-DELETE FROM personnel WHERE firstName = #firstName and lastName = #lastName;
+-- Personnel_duties INSERT
+INSERT INTO personnel_duties (personnelID, dutyID) VALUES (#personnelId, #dutId);
 
-SELECT * FROM personnel WHERE firstName = #firstName and lastName = #lastName;
 
-SELECT * FROM personnel;
 
--- Duties
+-- Personnel SELECT for display, with rankName and shipName displayed in place of FKs
+SELECT personnelId, firstName, lastName, rankName, shipName FROM personnel 
+LEFT JOIN ships ON personnel.shipID = ships.shipID 
+LEFT JOIN ranks on personnel.rankID = ranks.rankID;
+
+-- Personnel SELECT for searching for specific personnel by ID
+SELECT personnelId, firstName, lastName, rankName, shipName FROM personnel 
+LEFT JOIN ships ON personnel.shipID = ships.shipID LEFT JOIN ranks on personnel.rankID = ranks.rankID 
+WHERE personnelId = (#personnelId);
+
+-- Personnel DELETE
+DELETE FROM personnel WHERE personnelId = (#personnelId);
+
+-- Personnel SELECT for populating Update Personnel
+SELECT personnelID, firstName, lastName, rankName, shipName 
+FROM personnel LEFT JOIN ranks ON personnel.rankID = ranks.rankID 
+LEFT JOIN ships ON personnel.shipID = ships.shipID 
+WHERE personnel.personnelID = #personnelId;
+
+-- Rank SELECT for displaying, deleting or searching Personnel
+SELECT rankId, rankName FROM ranks;
+
+-- Ship SELECT for displaying, deleting or searching Personnel
+SELECT shipId, shipName FROM ships;
+
+-- Personnel UPDATE
+UPDATE personnel 
+SET firstName = #fnameUpdate 
+    lastName = #lnameUpdate 
+    rankID = #rankUpdate 
+    shipID = #shipIdUpdate 
+    WHERE personnelID = #updatePersonnelID;
+
+-- Personnel INSERT
+INSERT INTO personnel (firstName, lastName, rankID, shipID)
+VALUES (#firstName, #lastName, #rankId, #shipId);
+
+-- Duties INSERT
 INSERT INTO duties (dutyName, priority, responsibilities)
 VALUES (#dutyName, #priority, #responsibilities);
 
-SELECT * FROM duties;
+-- Duties SELECT
+SELECT dutyId, dutyName, priority, responsibilities FROM duties;
 
--- PersonnelDuties
-INSERT INTO personnel_duties (personnelID, dutyID)
-VALUES ((SELECT personnelID FROM personnel WHERE firstName = #firstName and lastName = #lastName),
-    (SELECT dutyID FROM duties WHERE dutyName = #dutyName));
+-- Missions INSERT and SELECT
+INSERT INTO missions (directive, status, location)
+VALUES (#directive, #status, #location);
 
-DELETE FROM personnel_duties WHERE firstName = #firstName and lastName = #lastName and dutyName = #dutyName;
-
-SELECT * FROM personnel_duties;
+-- Missions SELECT
+SELECT missionID, directive, status, location FROM missions;

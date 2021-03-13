@@ -66,14 +66,6 @@ VALUES
     ("Commander", 100000, 7),
     ("Captain", 110000, 10);
 
-INSERT INTO ships (shipName, registry, class, currentLocation) 
-VALUES 
-    ("USS Enterprise", "NCC-1701", "Constitution-class", "Space"),
-    ("USS Endeavour", "NCC-1895", "Constitution-class", "Space"),
-    ("USS Entente", "NCC-2120", "Dreadnought", "Space"),
-    ("USS Merced", "NCC-87075", "California-class", "Space"),
-    ("SS Manila", "NGA-20124", "Transport", "Repair Dock");
-
 INSERT INTO missions (directive, status, location)
 VALUES 
     ("Find Klingon ambassador", 1, "Klingon"),
@@ -82,12 +74,20 @@ VALUES
     ("Investigate subspace anomaly", 2, "Crab Nebula"),
     ("Transport Ambassador Pike", 3, "Feringenar");
 
-INSERT INTO personnel (firstName, lastName)
+INSERT INTO ships (shipName, registry, class, currentLocation, missionID) 
 VALUES 
-    ('James', 'Kirk'),
-    ('S''chn', 'Spock'),
-    ('William', 'Riker'),
-    ('Jean-Luc', 'Picard');
+    ("USS Enterprise", "NCC-1701", "Constitution-class", "Space", 1),
+    ("USS Endeavour", "NCC-1895", "Constitution-class", "Space", 2),
+    ("USS Entente", "NCC-2120", "Dreadnought", "Space", 3),
+    ("USS Merced", "NCC-87075", "California-class", "Space", 4),
+    ("SS Manila", "NGA-20124", "Transport", "Repair Dock", 5);
+
+INSERT INTO personnel (firstName, lastName, rankID, shipID)
+VALUES 
+    ('James', 'Kirk', 6, 1),
+    ('S''chn', 'Spock', 4, 1),
+    ('William', 'Riker', 5, 1),
+    ('Jean-Luc', 'Picard', 6, 1);
 
 INSERT INTO duties (dutyName, priority, responsibilities)
 VALUES 
