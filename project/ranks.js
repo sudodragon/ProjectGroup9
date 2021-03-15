@@ -14,6 +14,7 @@ module.exports = function() {
         });
     }
 
+    // READ Ranks
     router.get('/', (req, res) => {
         let callbackCount = 0;
         let context = {};
@@ -28,6 +29,7 @@ module.exports = function() {
         }      
     });
 
+    // CREATE Ranks
     router.post('/', function(req, res){
         let mysql = req.app.get('mysql');
         let sql = "INSERT INTO ranks (rankName, pay, minYears) VALUES (?,?,?)";

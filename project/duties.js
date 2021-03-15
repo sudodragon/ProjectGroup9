@@ -13,6 +13,8 @@ module.exports = function() {
             complete();
         });
     }
+
+    // READ Duties
     router.get('/', (req, res) => {
         let callbackCount = 0;
         let context = {};
@@ -27,6 +29,7 @@ module.exports = function() {
         }      
     });
 
+    // CREATE duties
     router.post('/', function (req, res) {
         let mysql = req.app.get('mysql');
         let sql = "INSERT INTO duties (dutyName, priority, responsibilities) VALUES (?,?,?)";

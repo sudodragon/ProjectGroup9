@@ -38,6 +38,7 @@ module.exports = function () {
         });
     }
 
+    // READ PersonnelToDuty
     router.get('/', (req, res) => {
         let callbackCount = 0;
         let context = {};
@@ -54,6 +55,7 @@ module.exports = function () {
         }
     });
     
+    // DELETE PersonnelToDuty
     router.post('/delete', function(req, res){
         let mysql = req.app.get('mysql');
         let [personnelID, dutyID] = [req.body.personnelID, req.body.dutyID]
@@ -70,6 +72,7 @@ module.exports = function () {
         });
     });
 
+    // ADD PersonnelToDuty
     router.post('/', function(req, res){
         let mysql = req.app.get('mysql');
         let sql = "INSERT INTO personnel_duties (personnelID, dutyID) VALUES (?,?)";

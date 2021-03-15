@@ -89,7 +89,8 @@ module.exports = function () {
         });
     }
 
-    //Routes
+    // Routes
+    // SELECT/FILTER Personnel
     router.get('/person', (req, res) => {
         let callbackCount = 0;
         let context = {};
@@ -104,6 +105,7 @@ module.exports = function () {
         }
     });
 
+    // READ Personnel
     router.get('/', (req, res) => {
         let callbackCount = 0;
         let context = {};
@@ -120,6 +122,7 @@ module.exports = function () {
         }
     });
 
+    // DELETE Personnel
     router.post('/delete', (req, res) => {
         let callbackCount = 0;
         let person_to_delete = req.body.personnelId
@@ -135,6 +138,7 @@ module.exports = function () {
         }
     });
 
+    // UPDATE Personnel
     router.get('/update', (req, res) => {
         let callbackCount = 0;
         let context = {};
@@ -151,6 +155,7 @@ module.exports = function () {
         }
     });
 
+    // UPDATE Personnel
     router.post('/update', function (req, res) {
         let mysql = req.app.get('mysql');
 
@@ -181,6 +186,7 @@ module.exports = function () {
         });
     });
 
+    // CREATE Personnel
     router.post('/', function (req, res) {
         let mysql = req.app.get('mysql');
         let rankId = req.body.rankId;

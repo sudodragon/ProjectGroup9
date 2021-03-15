@@ -13,6 +13,8 @@ module.exports = function() {
             complete();
         });
     }
+
+    // READ Missions
     router.get('/', (req, res) => {
         let callbackCount = 0;
         let context = {};
@@ -27,6 +29,7 @@ module.exports = function() {
         }      
     });
 
+    // CREATE Missions
     router.post('/', function(req, res){
         let mysql = req.app.get('mysql');
         let sql = "INSERT INTO missions (directive, status, location) VALUES (?,?,?)";

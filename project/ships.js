@@ -27,6 +27,7 @@ module.exports = function() {
         });
     }
 
+    // READ Ships
     router.get('/', (req, res) => {
         let callbackCount = 0;
         let context = {};
@@ -42,6 +43,7 @@ module.exports = function() {
         }      
     });
 
+    // CREATE Ships
     router.post('/', function(req, res){
         let mysql = req.app.get('mysql');
         let missionId = req.body.missionId;
