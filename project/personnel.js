@@ -155,7 +155,6 @@ module.exports = function () {
         let mysql = req.app.get('mysql');
 
         let [updatePersonnelID, fnameUpdate, lnameUpdate, rankUpdate, shipIdUpdate] = [req.body.updatePersonnelID, String(req.body.fnameUpdate), String(req.body.lnameUpdate), req.body.rankUpdate, req.body.shipUpdate]
-        console.log(req.body);
         
         if (rankUpdate === "") {
             rankUpdate = null;
